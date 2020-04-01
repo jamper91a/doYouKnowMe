@@ -1,0 +1,137 @@
+
+
+<div class="container">
+
+  <div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+
+      <div class="container-fluid">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="p-5">
+              <h4 class="small font-weight-bold"><%=__('Progress')%></h4>
+              <div class="progress">
+                <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%" aria-valuenow="1" aria-valuemin="1" aria-valuemax="<%=questions.length%>"></div>
+              </div>
+              <br>
+              <div id="question0">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4"><%=questions[0].question%></h1>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <%if(questions[0].answer1) {%>
+                    <button onclick="answerQuestions('<%=questions[0].id%>','<%=questions[0].answer1%>')" class="btn btn-primary btn-user btn-block" type="button" href="forgot-password.html"><%=questions[0].answer1%></button>
+                    <%}%>
+                  </div>
+                  <div class="col-sm-6">
+                    <%if(questions[0].answer2) {%>
+                    <button onclick="answerQuestions('<%=questions[0].id%>','<%=questions[0].answer2%>')" class="btn btn-primary btn-user btn-block" type="button" href="forgot-password.html"><%=questions[0].answer2%></button>
+                    <%}%>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <%if(questions[0].answer3) {%>
+                    <button onclick="answerQuestions('<%=questions[0].id%>','<%=questions[0].answer3%>')" class="btn btn-primary btn-user btn-block" type="button" href="forgot-password.html"><%=questions[0].answer3%></button>
+                    <%}%>
+                  </div>
+                  <div class="col-sm-6">
+                    <%if(questions[0].answer4) {%>
+                    <button onclick="answerQuestions('<%=questions[0].id%>','<%=questions[0].answer4%>')" class="btn btn-primary btn-user btn-block" type="button" href="forgot-password.html"><%=questions[0].answer4%></button>
+                    <%}%>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <%if(questions[0].answer5) {%>
+                    <button onclick="answerQuestions('<%=questions[0].id%>','<%=questions[0].answer5%>')" class="btn btn-primary btn-user btn-block" type="button" href="forgot-password.html"><%=questions[0].answer5%></button>
+                    <%}%>
+                  </div>
+                  <div class="col-sm-6">
+                    <%if(questions[0].answer6) {%>
+                    <button onclick="answerQuestions('<%=questions[0].id%>','<%=questions[0].answer6%>')" class="btn btn-primary btn-user btn-block" type="button" href="forgot-password.html"><%=questions[0].answer6%></button>
+                    <%}%>
+                  </div>
+                </div>
+              </div>
+              <%for(var i=1; i<questions.length;i++) {%>
+              <div id="question<%=i%>" style="display: none">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-4"><%=questions[i].question%></h1>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <%if(questions[i].answer1) {%>
+                    <button onclick="answerQuestions('<%=questions[i].id%>','<%=questions[i].answer1%>')" class="btn btn-primary btn-user btn-block" type="button" href="forgot-password.html"><%=questions[i].answer1%></button>
+                    <%}%>
+                  </div>
+                  <div class="col-sm-6">
+                    <%if(questions[i].answer2) {%>
+                    <button onclick="answerQuestions('<%=questions[i].id%>','<%=questions[i].answer2%>')" class="btn btn-primary btn-user btn-block" type="button" href="forgot-password.html"><%=questions[i].answer2%></button>
+                    <%}%>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <%if(questions[i].answer3) {%>
+                    <button onclick="answerQuestions('<%=questions[i].id%>','<%=questions[i].answer3%>')" class="btn btn-primary btn-user btn-block" type="button" href="forgot-password.html"><%=questions[i].answer3%></button>
+                    <%}%>
+                  </div>
+                  <div class="col-sm-6">
+                    <%if(questions[i].answer4) {%>
+                    <button onclick="answerQuestions('<%=questions[i].id%>','<%=questions[i].answer4%>')" class="btn btn-primary btn-user btn-block" type="button" href="forgot-password.html"><%=questions[i].answer4%></button>
+                    <%}%>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <%if(questions[i].answer5) {%>
+                    <button onclick="answerQuestions('<%=questions[i].id%>','<%=questions[i].answer5%>')" class="btn btn-primary btn-user btn-block" type="button" href="forgot-password.html"><%=questions[i].answer5%></button>
+                    <%}%>
+                  </div>
+                  <div class="col-sm-6">
+                    <%if(questions[i].answer6) {%>
+                    <button onclick="answerQuestions('<%=questions[i].id%>','<%=questions[i].answer6%>')" class="btn btn-primary btn-user btn-block" type="button" href="forgot-password.html"><%=questions[i].answer6%></button>
+                    <%}%>
+                  </div>
+                </div>
+              </div>
+              <%}%>
+                <hr>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+
+  let questionNumber = 0;
+  function answerQuestions(questionId, answer) {
+    let data = {
+      question: parseInt(questionId),
+      answer: answer,
+      friend: '<%=req.session.friend.id%>'
+    }
+    $.post( '/question/answer', data, function( response ) {
+        //Check if is the last question
+        //Hide current question
+        $("#question"+questionNumber).hide(1000);
+        questionNumber++;
+        //Show next question
+        $("#question"+questionNumber).show(1000);
+        //Update the progress bar
+        const width =((questionNumber/<%=questions.length%>)*100);
+        $("#progressBar").css('width', width+ '%');
+        if( questionNumber>=<%=questions.length%>) {
+          window.location.href = '/finished'
+        }
+
+    });
+  }
+</script>

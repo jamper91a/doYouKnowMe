@@ -1,0 +1,101 @@
+<div class="container">
+
+  <div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+      <!-- Nested Row within Card Body -->
+      <div class="row">
+        <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+        <div class="col-lg-7">
+          <div class="p-5">
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-4"><%=__('Create a new quiz for your family')%></h1>
+            </div>
+            <form class="user" id="createQuiz" action="quiz/create" method="post">
+              <div class="form-group">
+                <input type="text" class="form-control form-control-user" name="name" placeholder="<%=__('Your name')%>">
+              </div>
+              <div class="form-group">
+                <input type="email" class="form-control form-control-user" name="email" placeholder="<%=__('Email Address')%>">
+              </div>
+              <button data-callback='onSubmit' data-sitekey="<%=sails.config.custom.recapchat2.siteKey%>" type="submit" class="btn btn-primary btn-user btn-block g-recaptcha" >
+                <%=__('Create quiz')%>
+              </button>
+              <hr>
+            </form>
+            <br>
+            <div class="text-center">
+              <h1 class="h4 text-gray-900 mb-2"><%=__('Did you enjoy')%>?</h1>
+              <p class="mb-4"><%=__('Would you like to contribute to make this site free of ads')%>?</p>
+            </div>
+            <div class="containerOuter">
+              <div class="container" align="center">
+                <input type="radio" class="hidden" id="input1" name="donation" value="1">
+                <label class="entry" for="input1">
+                  <div class="entry-label">$1 </div>
+                </label>
+                <input type="radio" class="hidden" id="input2" name="donation" value="5">
+                <label class="entry" for="input2">
+                  <div class="entry-label">$5 </div>
+                </label>
+                <input type="radio" class="hidden" id="input3" name="donation" value="10"checked>
+                <label class="entry" for="input3">
+                  <div class="entry-label">$10 </div>
+                </label>
+                <input type="radio" class="hidden" id="input3" name="donation" value="50">
+                <label class="entry" for="input3">
+                  <div class="entry-label">$50 </div>
+                </label>
+                <div class="highlight"></div>
+                <div class="overlay"></div>
+              </div>
+            </div>
+            <div id="paypal-button-container"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+
+<script src="https://www.paypal.com/sdk/js?client-id=<%=sails.config.custom.paypal.clientId%>"> // Required. Replace SB_CLIENT_ID with your sandbox client ID.
+</script>
+<script>
+
+  paypal.Buttons({
+    createOrder: function(data, actions) {
+      // This function sets up the details of the transaction, including the amount and line item details.
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: document.querySelector('input[name="donation"]:checked').value
+          }
+        }],
+        application_context: {
+          shipping_preference: "NO_SHIPPING"
+        }
+      });
+    },
+    onApprove: function(data, actions) {
+      // This function captures the funds from the transaction.
+      return actions.order.capture().then(function(details) {
+        // This function shows a transaction success message to your buyer.
+        alert('Transaction completed by ' + details.payer.name.given_name);
+      });
+    }
+  }).render('#paypal-button-container');
+</script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+  function onSubmit() {
+    var form = $("#createQuiz");
+    var post_url = form.attr("action"); //get form action url
+    var form_data = form.serialize(); //Encode form elements for submission
+
+    $.post( post_url, form_data, function( response ) {
+      window.location.href = 'addQuestion';
+    });
+  }
+</script>

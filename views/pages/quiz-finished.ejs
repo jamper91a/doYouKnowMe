@@ -1,0 +1,93 @@
+<div class="container">
+
+  <!-- Outer Row -->
+  <div class="row justify-content-center">
+
+    <div class="col-xl-10 col-lg-12 col-md-9">
+
+      <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+          <!-- Nested Row within Card Body -->
+          <div class="row">
+            <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
+            <div class="col-lg-6">
+              <div class="p-5">
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-2"><%=__('Congratulation, you have finished the quiz')%></h1>
+                  <p class="mb-4"><%=__('Your score was')%>: <%=friend.score%></p>
+                  <p class="mb-4"><%=__('Now you can create your own quiz and share it with your friends')%></p>
+                </div>
+                  <a href="/" id="copy" class="btn btn-primary btn-user btn-block">
+                    <%=__('Create my own quiz')%>
+                  </a>
+                  <a href="/quiz/<%=req.session.quiz.user.uuid%>" id="copy" class="btn btn-primary btn-user btn-block">
+                    <%=__('Check my position')%>
+                  </a>
+                <br>
+                <div class="text-center">
+                  <h1 class="h4 text-gray-900 mb-2"><%=__('Did you enjoy')%>?</h1>
+                  <p class="mb-4"><%=__('Would you like to contribute to make this site free of ads')%>?</p>
+                </div>
+                <div class="containerOuter">
+                  <div class="container" align="center">
+                    <input type="radio" class="hidden" id="input1" name="donation" value="1">
+                    <label class="entry" for="input1">
+                      <div class="entry-label">$1 </div>
+                    </label>
+                    <input type="radio" class="hidden" id="input2" name="donation" value="5">
+                    <label class="entry" for="input2">
+                      <div class="entry-label">$5 </div>
+                    </label>
+                    <input type="radio" class="hidden" id="input3" name="donation" value="10" checked>
+                    <label class="entry" for="input3">
+                      <div class="entry-label">$10 </div>
+                    </label>
+                    <input type="radio" class="hidden" id="input3" name="donation" value="50">
+                    <label class="entry" for="input3">
+                      <div class="entry-label">$50 </div>
+                    </label>
+                    <div class="highlight"></div>
+                    <div class="overlay"></div>
+                  </div>
+                </div>
+                <div id="paypal-button-container"></div>
+                <hr>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script src="https://www.paypal.com/sdk/js?client-id=<%=sails.config.custom.paypal.clientId%>"> // Required. Replace SB_CLIENT_ID with your sandbox client ID.
+</script>
+<script>
+
+  paypal.Buttons({
+    createOrder: function(data, actions) {
+      // This function sets up the details of the transaction, including the amount and line item details.
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: document.querySelector('input[name="donation"]:checked').value
+          }
+        }],
+        application_context: {
+          shipping_preference: "NO_SHIPPING"
+        }
+      });
+    },
+    onApprove: function(data, actions) {
+      // This function captures the funds from the transaction.
+      return actions.order.capture().then(function(details) {
+        // This function shows a transaction success message to your buyer.
+        alert('Transaction completed by ' + details.payer.name.given_name);
+      });
+    }
+  }).render('#paypal-button-container');
+</script>

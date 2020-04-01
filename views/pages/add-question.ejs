@@ -1,0 +1,148 @@
+
+
+<div class="container">
+
+  <div class="card o-hidden border-0 shadow-lg my-5">
+    <div class="card-body p-0">
+
+      <div class="container-fluid">
+        <!-- Nested Row within Card Body -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="p-5">
+              <div id="notification" class="card bg-success text-white shadow" style="display: none">
+                <div class="card-body">
+                    <%=__('Question added')%>
+                </div>
+              </div>
+              <div id="notificationError" class="card bg-danger text-white shadow" style="display: none">
+                <div class="card-body">
+                  <%=__('Duplicate answers')%>
+                </div>
+              </div>
+              <br>
+              <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4"><%=__('Add a question to')%>  <%=req.session.email%></h1>
+              </div>
+
+              <form action="question/add" method="post" class="user" id="addQuestion">
+                <div class="form-group">
+                  <input type="text" class="form-control form-control-user" id="question" name="question" placeholder="<%=__('Question')%>">
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="text" class="form-control form-control-user" name="answer1" placeholder="<%=__('Correct answer')%>" required>
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" name="answer2" placeholder="<%=__('Possible answer')%>" required>
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="text" class="form-control form-control-user" name="answer3" placeholder="<%=__('Possible answer')%>">
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" name="answer4" placeholder="<%=__('Possible answer')%>">
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-sm-6 mb-3 mb-sm-0">
+                    <input type="text" class="form-control form-control-user" name="answer5" placeholder="<%=__('Possible answer')%>">
+                  </div>
+                  <div class="col-sm-6">
+                    <input type="text" class="form-control form-control-user" name="answer6" placeholder="<%=__('Possible answer')%>">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-user btn-block">
+                  <%=__('Save this question and add another question')%>
+                </button>
+                <br>
+                <div class="text-center">
+                  <button id="finish" class="btn btn-primary btn-user btn-block" type="button"><%=__('Save this question and finish')%></button>
+                </div>
+                <hr>
+              </form>
+
+            </div>
+          </div>
+        </div>
+        <hr>
+      </div>
+    </div>
+  </div>
+
+</div>
+<script type="application/javascript" src="/js/jquery.autocomplete.min.js"></script>
+<script>
+
+  function duplicateValues() {
+    $("#notificationError").show(1000);
+    setTimeout(function () {
+      $("#notificationError").hide(1000);
+    }, 3000);
+  }
+  $(document).ready(function () {
+    $("#addQuestion").submit(function(event){
+      event.preventDefault(); //prevent default action
+      var post_url = $(this).attr("action"); //get form action url
+      var form_data = $(this).serialize() + '&lang=' + navigator.language.substring(0, 2);
+      var form_data2 = $(this).serializeArray(); //Encode form elements for submission
+      //Validate all the answers are different
+      for(let i=0; i<form_data2.length-1; i++) {
+        for(let j=i+1; j<form_data2.length; j++) {
+          if(form_data2[i].value) {
+            if(form_data2[i].value === form_data2[j].value) {
+              console.log(form_data2[i].value, form_data2[j].value)
+              console.log(i, j)
+              duplicateValues();
+              return;
+            }
+          }
+
+        }
+      }
+    //
+      $.post( post_url, form_data, function( response ) {
+        $('#addQuestion').trigger("reset");
+        $("#notification").show(1000);
+        setTimeout(function () {
+          $("#notification").hide(1000);
+        }, 3000);
+      });
+    });
+    $("#finish").click(function (event) {
+      event.preventDefault();
+      $.post( 'quiz/finish', {email: '<%=req.session.uuid%>'}, function( response ) {
+        window.location.href = 'finish'
+      });
+    });
+    $('#question').autocomplete({
+      preventBadQueries: false,
+      serviceUrl: '/options/filter',
+      paramName: 'key',
+      params: {
+        lang:navigator.language.substring(0, 2)
+      },
+      transformResult: function(response) {
+        response = JSON.parse(response);
+        return {
+          suggestions: $.map(response.data, function(dataItem) {
+            return { value: dataItem.question, data: dataItem };
+          })
+        }
+      },
+      onSelect: function (suggestion) {
+        //Add the information to the form
+        $('input[name="question"]').val(suggestion.value);
+        $('input[name="answer1"]').val(suggestion.data.answer1);
+        $('input[name="answer2"]').val(suggestion.data.answer2);
+        $('input[name="answer3"]').val(suggestion.data.answer3);
+        $('input[name="answer4"]').val(suggestion.data.answer4);
+        $('input[name="answer5"]').val(suggestion.data.answer5);
+        $('input[name="answer6"]').val(suggestion.data.answer6);
+      }
+    });
+  });
+</script>
+
+<!--<script src="https://www.google.com/recaptcha/api.js" async defer></script>-->
