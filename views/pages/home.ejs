@@ -10,6 +10,12 @@
             <div class="text-center">
               <h1 class="h4 text-gray-900 mb-4"><%=__('Create a new quiz for your family')%></h1>
             </div>
+            <div id="error-emailAlreadyUsed" class="card bg-danger text-white shadow" style="display: none">
+              <div class="card-body">
+                <%=__('Email already used')%>
+              </div>
+            </div>
+            <br>
             <form class="user" id="createQuiz" action="quiz/create" method="post">
               <div class="form-group">
                 <input type="text" class="form-control form-control-user" name="name" placeholder="<%=__('Your name')%>">
@@ -97,5 +103,15 @@
     $.post( post_url, form_data, function( response ) {
       window.location.href = 'addQuestion';
     });
+    $.post( post_url, form_data)
+            .done(function( response ) {
+              window.location.href = 'addQuestion';
+            })
+            .fail(function(xhr, textStatus, errorThrown) {
+              $('#error-'+xhr.getResponseHeader('X-Exit')).show(1000);
+              setTimeout(function () {
+                $('#error-'+xhr.getResponseHeader('X-Exit')).hide(1000);
+              }, 5000);
+            });
   }
 </script>

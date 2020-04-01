@@ -38,8 +38,6 @@ module.exports = {
       question.answer5 = questionAux['answer'+random[4]];
       question.answer6 = questionAux['answer'+random[5]];
     });
-    console.log('after');
-    console.log(questions);
 
     // All done.
     return {questions};

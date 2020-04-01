@@ -22,21 +22,31 @@ module.exports = {
 
 
   exits: {
-
+    emailAlreadyUsed:{
+      description: 'Email already taken',
+      responseType: 'badRequest'
+    }
   },
 
 
   fn: async function (inputs) {
-    inputs.uuid = uuidv4();
-    const user = await User.create(inputs).fetch();
-    const quiz = await Quiz.create({user: user.id, state: sails.config.custom.QUIZ_STATE.STARTED}).fetch();
-    if(this.req.session) {
-      this.req.session.user = user;
-      this.req.session.name = inputs.name;
-      this.req.session.email = inputs.email;
-      this.req.session.uuid = inputs.uuid;
+    //Check if an user exits with that email
+    const userExits = await User.find({email: inputs.email});
+    if(!userExits) {
+      inputs.uuid = uuidv4();
+      const user = await User.create(inputs).fetch();
+      const quiz = await Quiz.create({user: user.id, state: sails.config.custom.QUIZ_STATE.STARTED}).fetch();
+      if(this.req.session) {
+        this.req.session.user = user;
+        this.req.session.name = inputs.name;
+        this.req.session.email = inputs.email;
+        this.req.session.uuid = inputs.uuid;
+      }
+      return quiz;
+    } else {
+      throw {emailAlreadyUsed:[]};
     }
-    return quiz;
+
 
   }
 
