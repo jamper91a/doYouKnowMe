@@ -1,0 +1,12 @@
+{
+  "local": "mysql://root:jamper91@127.0.0.1:3306/doyouknowme",
+  "dev": {
+    "host": "127.0.0.1",
+    "user": "root",
+    "password" : "jamper91",
+    "database": "doyouknowme",
+    "driver": "mysql",
+    "multipleStatements": true
+  },
+  "prod": "mysql://doYouKnowMe:*wd7lw&FbAN12Rig@127.0.0.1:3306/doyouknowme"
+}

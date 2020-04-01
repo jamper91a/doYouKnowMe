@@ -16,4 +16,11 @@ a [Sails v1](https://sailsjs.com) application
 
 Start redis `redis-server /usr/local/etc/redis.conf`
 
+### Database migrations
+
++ [Db-migration](https://db-migrate.readthedocs.io/en/latest/)
+
++ Create new migration: db-migrate create {name} --sql-file
++ Migrate: npx db-migrate up -e {dev|prod}
++ Rollback: npx db-migrate down -e {dev|prod}
 
