@@ -8,5 +8,14 @@
     "driver": "mysql",
     "multipleStatements": true
   },
-  "prod": "mysql://doYouKnowMe:*wd7lw&FbAN12Rig@127.0.0.1:3306/doyouknowme"
+  "prod": {
+    "host": "127.0.0.1",
+    "user": "doYouKnowMe",
+    "password" : "*wd7lw&FbAN12Rig",
+    "database": "doyouknowme",
+    "driver": "mysql",
+    "multipleStatements": true
+  }
+
+
 }
