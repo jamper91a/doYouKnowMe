@@ -7,18 +7,24 @@
 
       <div class="container-fluid">
         <!-- Nested Row within Card Body -->
-        <div class="row">s
+        <div class="row">
           <div class="col-lg-12">
             <div class="p-5">
               <br>
               <div class="text-center">
                 <h1 class="h4 text-gray-900 mb-4"><%=__('Do you know')%>  <%=quiz.user.name%> ?</h1>
+                <p class="mb-4"><%=__('Discover how much you know your friend. Put your name and click on start the quiz')%></p>
               </div>
-              <%if(!req.session.friend){%>
+              <div id="error-nameAlreadyTaken" class="card bg-danger text-white shadow" style="display: none">
+                <div class="card-body">
+                  <%=__('Name already taken')%>
+                </div>
+              </div>
+              <br>
               <form action="/friend/add" method="post" class="user" id="addFriend">
                 <div class="form-group row">
                   <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" class="form-control form-control-user" name="name" placeholder="<%=__('Take the quiz using my name')%>" required>
+                    <input type="text" class="form-control form-control-user" name="name" placeholder="<%=__('Your name')%>" required>
                   </div>
                   <div class="col-sm-6">
                     <button data-callback='onSubmit' data-sitekey="<%=sails.config.custom.recapchat2.siteKey%>"  type="submit" class="btn btn-primary btn-user btn-block g-recaptcha">
@@ -27,7 +33,9 @@
                   </div>
                 </div>
               </form>
-              <%}%>
+              <div class="text-center">
+                <h1 class="h4 text-gray-900 mb-4"><%=__('Friends')%></h1>
+              </div>
                 <%for(var i=0; i<friends.length; i=i+1){%>
                 <div class="form-group row">
                   <div class="col-lg-12">
@@ -52,21 +60,6 @@
 
 </div>
 
-<!--<script>-->
-<!--  $(document).ready(function () {-->
-<!--    $("#addFriend").submit(function(event){-->
-<!--      event.preventDefault(); //prevent default action-->
-<!--      var post_url = $(this).attr("action"); //get form action url-->
-<!--      var form_data = $(this).serialize(); //Encode form elements for submission-->
-
-<!--      $.post( post_url, form_data, function( response ) {-->
-<!--        if(response && response.id>0) {-->
-<!--          window.location.href = '/resolve/<%=quiz.user.uuid%>/'-->
-<!--        }-->
-<!--      });-->
-<!--    });-->
-<!--  });-->
-<!--</script>-->
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
   function onSubmit() {
@@ -74,10 +67,17 @@
     var post_url = form.attr("action"); //get form action url
     var form_data = form.serialize(); //Encode form elements for submission
 
-    $.post( post_url, form_data, function( response ) {
-      if(response && response.id>0) {
-        window.location.href = '/resolve/<%=quiz.user.uuid%>/'
-      }
+    $.post( post_url, form_data)
+      .done(function( response ) {
+        if(response && response.id>0) {
+          window.location.href = '/resolve/<%=quiz.user.uuid%>/'
+        }
+      })
+    .fail(function(xhr, textStatus, errorThrown) {
+      $('#error-'+xhr.getResponseHeader('X-Exit')).show(1000);
+      setTimeout(function () {
+        $('#error-'+xhr.getResponseHeader('X-Exit')).hide(1000);
+      }, 5000);
     });
   }
 </script>
