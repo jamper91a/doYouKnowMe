@@ -11,7 +11,7 @@
   "prod": {
     "host": "127.0.0.1",
     "user": "doYouKnowMe",
-    "password" : "*wd7lw&FbAN12Rig",
+    "password" : "`ZdHk+MwMa0b7X2F",
     "database": "doyouknowme",
     "driver": "mysql",
     "multipleStatements": true

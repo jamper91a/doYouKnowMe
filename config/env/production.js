@@ -25,7 +25,7 @@ module.exports = {
   datastores: {
     default: {
       adapter: 'sails-mysql',
-      url: 'mysql://doYouKnowMe:*wd7lw&FbAN12Rig@127.0.0.1:3306/doyouknowme'
+      url: 'mysql://doYouKnowMe:`ZdHk+MwMa0b7X2F@127.0.0.1:3306/doyouknowme'
     },
 
   },
