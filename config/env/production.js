@@ -70,8 +70,8 @@ module.exports = {
     baseUrl: 'https://www.doyouknowme.co/',
     internalEmailAddress: 'support@example.com',
     paypal: {
-      account: 'jamper91nz-facilitator@outlook.com',
-      clientId: 'AX9efvh_xTUr9-B0yc5oTWdLEByWXS8H4vTmdy_qqlfsZpjnLKtKaPET1VHx8DZJRK57tkHgyKwkx8Yf'
+      account: 'jamper91nz@outlook.com',
+      clientId: 'AYdsn-EsIfp1ACc1ErAg-UR_sd-AWbM1rIO2YDrnTOR9xTImQKv8m0umiFWYZDZoqHbfVQpHvrBlK5zP'
     },
     recapchat: {
       siteKey: '6Lc_p-UUAAAAAC98YPMz15PJfwKpgIo21uKp7MAH',
