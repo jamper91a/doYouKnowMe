@@ -74,6 +74,7 @@
         }
       })
     .fail(function(xhr, textStatus, errorThrown) {
+      grecaptcha.reset();
       $('#error-'+xhr.getResponseHeader('X-Exit')).show(1000);
       setTimeout(function () {
         $('#error-'+xhr.getResponseHeader('X-Exit')).hide(1000);

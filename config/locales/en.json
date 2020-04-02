@@ -48,5 +48,6 @@
 	"Create a new quiz for your friends/family": "Create a new quiz for your friends/family",
 	"Possible answer (optional)": "Possible answer (optional)",
 	"error": "error",
-	"noUser": "We apologize, the link is not valid"
+	"noUser": "We apologize, the link is not valid",
+	"noQuestions": "noQuestions"
 }

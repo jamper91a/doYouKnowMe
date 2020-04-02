@@ -8,13 +8,14 @@
         <div class="col-lg-7">
           <div class="p-5">
             <div class="text-center">
+              <%if(req.session.errors) {%>
               <div id="error" class="card bg-danger text-white shadow" style="display: block">
                 <div class="card-body">
-                  <%if(typeof error) {%>
-                  <%=__(error)%>
-                  <%}%>
+                  <%=__(req.session.errors)%>
+                  <%req.session.errors=null%>
                 </div>
               </div>
+              <%}%>
               <br>
               <h1 class="h4 text-gray-900 mb-4"><%=__('Create a new quiz for your friends/family')%></h1>
             </div>
@@ -31,8 +32,9 @@
               <div class="form-group">
                 <input type="email" class="form-control form-control-user" name="email" placeholder="<%=__('Email Address')%>">
               </div>
-              <button data-callback='onSubmit' data-sitekey="<%=sails.config.custom.recapchat2.siteKey%>" type="submit" class="btn btn-primary btn-user btn-block g-recaptcha" >
-                <%=__('Create quiz')%>
+              <button id="btnCreateQuiz" data-callback='onSubmit' data-sitekey="<%=sails.config.custom.recapchat2.siteKey%>" type="submit"
+                      class="btn btn-primary btn-user btn-block g-recaptcha " >
+                <i id="spin" class="fa fa-spinner fa-spin" style="display: none"></i> <%=__('Create quiz')%>
               </button>
               <hr>
             </form>
@@ -103,19 +105,25 @@
 </script>
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
+  $(document).ready(function () {
+    $("#btnCreateQuiz").click(function () {
+      $('#btnCreateQuiz').prop('disabled', true);
+      $('#spin').show();
+    });
+  })
+
   function onSubmit() {
     var form = $("#createQuiz");
     var post_url = form.attr("action"); //get form action url
     var form_data = form.serialize(); //Encode form elements for submission
-
-    $.post( post_url, form_data, function( response ) {
-      window.location.href = 'addQuestion';
-    });
     $.post( post_url, form_data)
             .done(function( response ) {
               window.location.href = 'addQuestion';
             })
             .fail(function(xhr, textStatus, errorThrown) {
+              grecaptcha.reset();
+              $('#btnCreateQuiz').prop('false', true);
+              $('#spin').hide();
               $('#error-'+xhr.getResponseHeader('X-Exit')).show(1000);
               setTimeout(function () {
                 $('#error-'+xhr.getResponseHeader('X-Exit')).hide(1000);

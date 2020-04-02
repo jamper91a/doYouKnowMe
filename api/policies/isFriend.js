@@ -7,7 +7,6 @@
 
 
 module.exports = (req, res, next) => {
-  console.log(req.session);
   if(req.session.friend)
     return next();
   req.session.error = sails.__('Not allowed');
