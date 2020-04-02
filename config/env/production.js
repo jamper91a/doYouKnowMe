@@ -37,19 +37,19 @@ module.exports = {
   },
   security: {
     cors: {
-      allowOrigins: []
+      allowOrigins: ['https://doyouknowme.co','https://www.doyouknowme.co']
     },
+  },
+  sockets: {
+    onlyAllowOrigins: ['https://doyouknowme.co','https://www.doyouknowme.co']
   },
   session: {
     adapter: '@sailshq/connect-redis',
     cookie: {
-      // secure: true,
+      secure: true,
       maxAge: 24 * 60 * 60 * 1000,  // 24 hours
     },
 
-  },
-  sockets: {
-    onlyAllowOrigins: [],
   },
   log: {
     level: 'debug'
@@ -57,7 +57,7 @@ module.exports = {
   http: {
     cache: 365.25 * 24 * 60 * 60 * 1000
   },
-  port: 80,
+  port: 443,
   ssl: {
     ca: require('fs').readFileSync(require('path').resolve(__dirname,'../ssl/doyouknowme_co.ca-bundle')),
     key: require('fs').readFileSync(require('path').resolve(__dirname,'../ssl/doyouknowme_co_key.txt')),
@@ -67,7 +67,7 @@ module.exports = {
   },
 
   custom: {
-    baseUrl: 'https://e2ddf18b.ngrok.io/',
+    baseUrl: 'https://doyouknowme.co/',
     internalEmailAddress: 'support@example.com',
     paypal: {
       account: 'jamper91nz-facilitator@outlook.com',
