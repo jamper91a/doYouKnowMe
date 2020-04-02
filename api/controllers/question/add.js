@@ -1,3 +1,4 @@
+var flaverr = require('flaverr');
 module.exports = {
 
 
@@ -30,36 +31,47 @@ module.exports = {
   exits: {
     notAllow: {
       description: 'Question not added because edit quiz has finished'
+    },
+    redirect: {
+      responseType: 'redirect'
     }
   },
 
 
-  fn: async function (inputs) {
+  fn: async function (inputs, exits) {
     const lang = inputs.lang;
     const aux = Object.assign({}, inputs);
     try {
-      //Find the quiz wit the email provided
-      const quiz = await sails.helpers.quiz.getQuizByEmail(this.req.session.uuid);
-      if (quiz.state === sails.config.custom.QUIZ_STATE.STARTED) {
-        inputs.quiz = quiz.id;
-        await Question.create(inputs);
-        //Add question to the options
-        try {
-          inputs.answer1 = '';
-          inputs.lang = lang;
-          const option = await Options.findOne({question: inputs.question});
-          if (option === undefined) {
-            await Options.create(aux);
-          }
-        } catch (e) {
-        }
+      const data = await sails.getDatastore()
+        .transaction(async (db) => {
+          //Find the quiz wit the email provided
+          const quiz = await sails.helpers.quiz.getQuizByEmail(this.req.session.uuid);
+          if (quiz.state === sails.config.custom.QUIZ_STATE.STARTED) {
+            inputs.quiz = quiz.id;
+            await Question.create(inputs).usingConnection(db);
+            //Add question to the options
+            try {
+              inputs.answer1 = '';
+              inputs.lang = lang;
+              const option = await Options.findOne({question: inputs.question}).usingConnection(db);
+              if (option === undefined) {
+                await Options.create(aux).usingConnection(db);
+              }
+            } catch (e) {
+            }
 
-        return {};
-      } else {
-        throw 'notAllow';
-      }
+            return {};
+          } else {
+            throw flaverr('notAllow', new Error('notAllow'));
+          }
+        })
+        .intercept('notAllow', () => {
+          this.req.session.errors = 'notAllow';
+          return exits.redirect('/');
+        });
+      return exits.success(data);
     } catch (e) {
-      return e;
+      console.error(e);
     }
 
   }

@@ -1,3 +1,4 @@
+var flaverr = require('flaverr');
 module.exports = {
 
 
@@ -27,20 +28,33 @@ module.exports = {
   },
 
 
-  fn: async function ({email}) {
+  fn: async function (inputs, exits) {
 
-    //Find the quiz wit the email provided
-    const user = await User.findOne({uuid:email});
-    if(user) {
-      const quiz = await Quiz.findOne({user:user.id}).populate('user');
-      if(quiz) {
-        return quiz;
-      } else {
-        throw 'noQuiz';
-      }
-    } else {
-      throw 'noUser';
-    }
+    const quiz = await sails.getDatastore()
+      .transaction(async (db) => {
+        //Find the quiz wit the email provided
+        const user = await User.findOne({uuid:inputs.email}).usingConnection(db);
+        if(user) {
+          const quiz = await Quiz.findOne({user:user.id}).populate('user').usingConnection(db);
+          if(quiz) {
+            return quiz;
+          } else {
+            throw flaverr('noQuiz', new Error('noQuiz'));
+          }
+        } else {
+          throw flaverr('noUser', new Error('noUser'));
+        }
+      })
+      .intercept('noQuiz', () => {
+        return exits.noQuiz();
+      })
+      .intercept('noUser', () => {
+        return exits.noUser();
+      });
+    return exits.success(quiz);
+
+
+
   }
 
 

@@ -92,8 +92,6 @@
         for(let j=i+1; j<form_data2.length; j++) {
           if(form_data2[i].value) {
             if(form_data2[i].value === form_data2[j].value) {
-              console.log(form_data2[i].value, form_data2[j].value)
-              console.log(i, j)
               duplicateValues();
               return;
             }
@@ -101,14 +99,25 @@
 
         }
       }
-    //
-      $.post( post_url, form_data, function( response ) {
-        $('#addQuestion').trigger("reset");
-        $("#notification").show(1000);
-        setTimeout(function () {
-          $("#notification").hide(1000);
-        }, 3000);
-      });
+
+      // $.post( post_url, form_data, function( response ) {
+      //   $('#addQuestion').trigger("reset");
+      //   $("#notification").show(1000);
+      //   setTimeout(function () {
+      //     $("#notification").hide(1000);
+      //   }, 3000);
+      // });
+      $.post( post_url, form_data)
+        .done(function( response ) {
+          $('#addQuestion').trigger("reset");
+          $("#notification").show(1000);
+          setTimeout(function () {
+            $("#notification").hide(1000);
+          }, 3000);
+        })
+        .fail(function(xhr, textStatus, errorThrown) {
+
+        });
     });
     $("#finish").click(function (event) {
       event.preventDefault();
