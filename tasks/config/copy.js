@@ -18,7 +18,13 @@ module.exports = function(grunt) {
         cwd: './assets',
         src: ['**/*.!(coffee|less)'],
         dest: '.tmp/public'
-      }]
+      },
+        {
+          expand: true,
+          cwd: './assets/.well-known',
+          src: ['**/*.!(coffee|less)'],
+          dest: '.tmp/public/.well-known'
+        }]
     },
     build: {
       files: [{
