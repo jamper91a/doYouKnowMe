@@ -58,7 +58,13 @@ module.exports = {
     cache: 365.25 * 24 * 60 * 60 * 1000
   },
   port: 80,
-  // ssl: undefined,
+  ssl: {
+    ca: require('fs').readFileSync(require('path').resolve(__dirname,'../ssl/doyouknowme_co.ca-bundle')),
+    key: require('fs').readFileSync(require('path').resolve(__dirname,'../ssl/doyouknowme_co_key.txt')),
+    cert: require('fs').readFileSync(require('path').resolve(__dirname,'../ssl/doyouknowme_co.crt')),
+    //requestCert: true,
+    //rejectUnauthorized: false
+  },
 
   custom: {
     baseUrl: 'https://e2ddf18b.ngrok.io/',
