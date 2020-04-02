@@ -49,6 +49,6 @@
 	"Possible answer (optional)": "Possible answer (optional)",
 	"error": "error",
 	"noUser": "We apologize, the link is not valid",
-	"noQuestions": "noQuestions",
-	"notAllow": "notAllow"
+	"noQuestions": "There are not questions for this quiz, try a different one",
+	"notAllow": "You can not add more questions because the quiz was finished, try another one"
 }
