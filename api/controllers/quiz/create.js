@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 const { v4: uuidv4 } = require('uuid');
 module.exports = {
 
@@ -32,7 +31,8 @@ module.exports = {
   fn: async function (inputs) {
     //Check if an user exits with that email
     const userExits = await User.find({email: inputs.email});
-    if(!userExits) {
+    console.log(userExits);
+    if(!userExits || userExits.length === 0) {
       inputs.uuid = uuidv4();
       const user = await User.create(inputs).fetch();
       const quiz = await Quiz.create({user: user.id, state: sails.config.custom.QUIZ_STATE.STARTED}).fetch();
