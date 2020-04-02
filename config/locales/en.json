@@ -46,5 +46,7 @@
 	"Name already taken": "Name already taken",
 	"Email already used": "Email already used",
 	"Create a new quiz for your friends/family": "Create a new quiz for your friends/family",
-	"Possible answer (optional)": "Possible answer (optional)"
+	"Possible answer (optional)": "Possible answer (optional)",
+	"error": "error",
+	"noUser": "We apologize, the link is not valid"
 }

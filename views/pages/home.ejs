@@ -8,6 +8,14 @@
         <div class="col-lg-7">
           <div class="p-5">
             <div class="text-center">
+              <div id="error" class="card bg-danger text-white shadow" style="display: block">
+                <div class="card-body">
+                  <%if(typeof error) {%>
+                  <%=__(error)%>
+                  <%}%>
+                </div>
+              </div>
+              <br>
               <h1 class="h4 text-gray-900 mb-4"><%=__('Create a new quiz for your friends/family')%></h1>
             </div>
             <div id="error-emailAlreadyUsed" class="card bg-danger text-white shadow" style="display: none">
