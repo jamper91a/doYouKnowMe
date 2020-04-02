@@ -67,7 +67,7 @@ module.exports = {
   },
 
   custom: {
-    baseUrl: 'https://doyouknowme.co/',
+    baseUrl: 'https://www.doyouknowme.co/',
     internalEmailAddress: 'support@example.com',
     paypal: {
       account: 'jamper91nz-facilitator@outlook.com',
