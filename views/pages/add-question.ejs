@@ -116,7 +116,13 @@
           }, 3000);
         })
         .fail(function(xhr, textStatus, errorThrown) {
-
+          if(xhr.getResponseHeader('X-Exit') === 'notAllow') {
+            window.location.href = '/';
+          }
+          $('#error-'+xhr.getResponseHeader('X-Exit')).show(1000);
+          setTimeout(function () {
+            $('#error-'+xhr.getResponseHeader('X-Exit')).hide(1000);
+          }, 5000);
         });
     });
     $("#finish").click(function (event) {

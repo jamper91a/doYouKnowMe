@@ -49,5 +49,6 @@
 	"Possible answer (optional)": "Possible answer (optional)",
 	"error": "error",
 	"noUser": "We apologize, the link is not valid",
-	"noQuestions": "noQuestions"
+	"noQuestions": "noQuestions",
+	"notAllow": "notAllow"
 }

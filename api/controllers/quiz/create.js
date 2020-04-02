@@ -58,7 +58,7 @@ module.exports = {
         });
       return exits.success(quiz);
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
 
   }

@@ -30,11 +30,9 @@ module.exports = {
 
   exits: {
     notAllow: {
-      description: 'Question not added because edit quiz has finished'
+      description: 'Question not added because edit quiz has finished',
+      responseType: 'badRequest'
     },
-    redirect: {
-      responseType: 'redirect'
-    }
   },
 
 
@@ -67,11 +65,11 @@ module.exports = {
         })
         .intercept('notAllow', () => {
           this.req.session.errors = 'notAllow';
-          return exits.redirect('/');
+          return exits.notAllow();
         });
       return exits.success(data);
     } catch (e) {
-      console.error(e);
+      // console.error(e);
     }
 
   }
